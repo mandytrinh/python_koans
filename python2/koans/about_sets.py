@@ -11,13 +11,13 @@ class AboutSets(Koan):
 
         there_can_only_be_only_one = set(highlanders)
 
-        self.assertEqual(__, there_can_only_be_only_one)
+        self.assertEqual(set(['MacLeod', 'Ramirez', 'Matunas', 'Malcolm']), there_can_only_be_only_one)
 
     def test_sets_are_unordered(self):
-        self.assertEqual(set([__, __, __, __, __]), set('12345'))
+        self.assertEqual(set(['1', '2', '3', '4', '5']), set('12345'))
 
     def test_convert_the_set_into_a_list_to_sort_it(self):
-        self.assertEqual(__, sorted(set('13245')))
+        self.assertEqual(['1', '2', '3', '4', '5'], sorted(set('13245')))
 
     # ------------------------------------------------------------------
 
@@ -25,19 +25,30 @@ class AboutSets(Koan):
         scotsmen = set(['MacLeod', 'Wallace', 'Willie'])
         warriors = set(['MacLeod', 'Wallace', 'Leonidas'])
 
-        self.assertEqual(__, scotsmen - warriors)
-        self.assertEqual(__, scotsmen | warriors)
-        self.assertEqual(__, scotsmen & warriors)
-        self.assertEqual(__, scotsmen ^ warriors)
+        # new set with elements in s but not in t
+        self.assertEqual(set(['Willie']), scotsmen - warriors)
+
+        # union: new set with elements from both s and t
+        self.assertEqual(set(['Wallace', 'MacLeod', 'Willie', 'Leonidas']), scotsmen | warriors)
+
+        # intersection: new set with elements common to s and t
+        self.assertEqual(set(['MacLeod', 'Wallace']), scotsmen & warriors)
+
+        # new set with elements in either s or t but not both
+        self.assertEqual(set(['Willie', 'Leonidas']), scotsmen ^ warriors)
 
     # ------------------------------------------------------------------
 
     def test_we_can_query_set_membership(self):
-        self.assertEqual(__, 127 in set([127, 0, 0, 1]))
-        self.assertEqual(__, 'cow' not in set('apocalypse now'))
+        self.assertEqual(True, 127 in set([127, 0, 0, 1]))
+        self.assertEqual(True, 'cow' not in set('apocalypse now'))
 
     def test_we_can_compare_subsets(self):
-        self.assertEqual(__, set('cake') <= set('cherry cake'))
-        self.assertEqual(__, set('cake').issubset(set('cherry cake')))
+        # test whether every element in s is in t
+        self.assertEqual(True, set('cake') <= set('cherry cake'))
 
-        self.assertEqual(__, set('cake') > set('pie'))
+        # test whether every element in s is in t
+        self.assertEqual(True, set('cake').issubset(set('cherry cake')))
+        
+        # test whether every element in t is in s
+        self.assertEqual(False, set('cake') > set('pie'))
