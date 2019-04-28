@@ -3,39 +3,62 @@
 
 from runner.koan import *
 
+"""
+Greed is a dice game where you roll up to five dice to accumulate
+points.  The following "score" function will be used to calculate the
+score of a single roll of the dice.
 
-# Greed is a dice game where you roll up to five dice to accumulate
-# points.  The following "score" function will be used calculate the
-# score of a single roll of the dice.
-#
-# A greed roll is scored as follows:
-#
-# * A set of three ones is 1000 points
-#
-# * A set of three numbers (other than ones) is worth 100 times the
-#   number. (e.g. three fives is 500 points).
-#
-# * A one (that is not part of a set of three) is worth 100 points.
-#
-# * A five (that is not part of a set of three) is worth 50 points.
-#
-# * Everything else is worth 0 points.
-#
-#
-# Examples:
-#
-# score([1, 1, 1, 5, 1]) => 1150 points
-# score([2, 3, 4, 6, 2]) => 0 points
-# score([3, 4, 5, 3, 3]) => 350 points
-# score([1, 5, 1, 2, 4]) => 250 points
-#
-# More scoring examples are given in the tests below:
-#
-# Your goal is to write the score method.
+A greed roll is scored as follows:
 
+* A set of three ones is 1000 points
+
+* A set of three numbers (other than ones) is worth 100 times the
+  number. (e.g. three fives is 500 points).
+
+* A one (that is not part of a set of three) is worth 100 points.
+
+* A five (that is not part of a set of three) is worth 50 points.
+
+* Everything else is worth 0 points.
+
+
+Examples:
+
+score([1, 1, 1, 5, 1]) => 1150 points
+score([2, 3, 4, 6, 2]) => 0 points
+score([3, 4, 5, 3, 3]) => 350 points
+score([1, 5, 1, 2, 4]) => 250 points
+
+More scoring examples are given in the tests below:
+
+Your goal is to write the score method.
+"""
+"""
+{'ones': [1, 2], 'twos': [2,3], etc}
+
+"""
 def score(dice):
-    # You need to write this method
-    pass
+    result = 0
+    freq = {}.fromkeys(range(1, 7), 0) #{1: 0, 2: 0, etc..}
+
+    for n in dice:
+        freq[n] += 1
+
+    if freq[1] >= 3:
+        result += 1000 + ((freq[1] % 3) * 100)
+    else:
+        result += freq[1] * 100
+
+    for x in range(2, 7):
+        if freq[x] >= 3 and x != 5:
+            result += 100 * x + (freq[x] % 3)
+        elif x == 5:
+            if freq[x] >= 3:
+                result += 500 + ((freq[x] % 3) * 50)
+            else:
+                result += freq[x] * 50
+
+    return result
 
 
 class AboutScoringProject(Koan):
